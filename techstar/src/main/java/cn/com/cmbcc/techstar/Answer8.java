@@ -8,9 +8,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
-/**
- * Created by tinyspace on 2018/3/6.
- */
 public class Answer8 {
 
     public static void doSomething(String httpsUrl) {

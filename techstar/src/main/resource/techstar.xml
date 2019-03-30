@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.cmbcc.mapper.TechstarMapper" >
+
+    <select id="getInfoById" parameterType="int" resultType="map">
+       select ID,Person,mobile,Addr from techstar_user where ID=#{ID}
+    </select>
+
+    <select id="getInfoLimit" parameterType="map" resultType="map">
+        select ID,Person,mobile,Addr from techstar_user limit #{first},#{len}
+    </select>
+
+    <update id="updateInfo" parameterType="map">
+        UPDATE techstar_user
+        SET
+        mobile=#{mobile}
+        where ID=#{ID}
+    </update>
+
+    <!-- 批量更新第一种方法，通过接收传进来的参数list进行循环着组装sql -->
+    <update id="batchUpdate" parameterType="map">
+        <!-- 接收list参数，循环着组装sql语句，注意for循环的写法
+             separator=";" 代表着每次循环完，在sql后面放一个分号
+             item="cus" 循环List的每条的结果集
+             collection="list" list 即为 map传过来的参数key -->
+        <foreach collection="list" separator=";" item="item">
+            update techstar_user set
+            mobile=#{mobile}
+            where id = #{item.id}
+        </foreach>
+    </update>
+
+</mapper>
