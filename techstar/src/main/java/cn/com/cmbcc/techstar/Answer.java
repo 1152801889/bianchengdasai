@@ -43,11 +43,16 @@ public class Answer {
                 break;
             case 2:
                 System.out.println("verify No." + num);
-
+                int[] nums=new int[args.length-1];
+                for (int i=1;i<args.length;i++){
+                    nums[i-1]=Integer.parseInt(args[i]);
+                }
+                Answer2.doSomething(nums);
                 break;
             case 3:
-                System.out.println("verify No." + num);
-
+//                System.out.println("verify No." + num);
+//                System.out.println("题3输出结果：");
+//                Answer3.printf(args[1]);
                 break;
             case 4:
                 System.out.println("verify No." + num);
