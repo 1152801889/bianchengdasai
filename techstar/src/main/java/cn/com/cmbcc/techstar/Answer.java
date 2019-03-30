@@ -71,11 +71,11 @@ public class Answer {
                 break;
             case 8:
                 System.out.println("verify No." + num);
-                //
+                Answer8.doSomething(args[1]);
                 break;
             case 9:
                 System.out.println("verify No." + num);
-                //
+
                 break;
             case 10:
                 System.out.println("verify No." + num);

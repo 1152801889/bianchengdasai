@@ -1,20 +1,12 @@
 package cn.com.cmbcc.techstar;
 
-import cn.com.cmbcc.utils.HttpClientUtil;
 import cn.com.cmbcc.utils.SSLClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.dom4j.*;
-import org.dom4j.io.SAXReader;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -27,7 +19,7 @@ public class Answer6 {
     public static void main(String[] args) throws IOException, DocumentException {
 //        String[] nums={"1"};
 //        String[] nums={"1","2"};
-//        String[] nums={"1","2" ,"3","4","5","6","7","8","9","10"};
+        String[] nums={"1","2" ,"3","4","5","6","7","8","9","10"};
         doSomething(args);
 
     }
