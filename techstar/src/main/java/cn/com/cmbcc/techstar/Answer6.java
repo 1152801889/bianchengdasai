@@ -1,53 +1,121 @@
 package cn.com.cmbcc.techstar;
 
-import java.io.BufferedReader;
-import java.io.File;
+import cn.com.cmbcc.utils.HttpClientUtil;
+import cn.com.cmbcc.utils.SSLClient;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.dom4j.*;
+import org.dom4j.io.SAXReader;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.List;
+
 
 public class Answer6 {
 
 
-//    public static void main(String[] args) throws IOException {
-//        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//        String str = br.readLine();
-//        String[] words = str.split(" ");
-//        if (words.length != 2) {
-//            System.out.println("参数数量不为2");
-//            return;
-//        }
-//        int a = 0;
-//        try {
-//            a = Integer.parseInt(words[0]);
-//        } catch (Exception e) {
-//            System.out.println("输入的第一个参数应该是整数");
-//        }
-//        if (a != 6) {
-//            System.out.println("第一个参数应该为6");
-//        }
-//
-//        File file = new File(words[1]);
-//        System.out.println(folders(file));
-//    }
+    public static void main(String[] args) throws IOException, DocumentException {
+//        String[] nums={"1"};
+//        String[] nums={"1","2"};
+//        String[] nums={"1","2" ,"3","4","5","6","7","8","9","10"};
+        doSomething(args);
 
-    public static long folders(File file) {
-        if (file.exists()) {
-            if (file.isDirectory()) {
-                File[] children = file.listFiles();
-                long size = 0;
-                for (File f : children) {
-                    size += folders(f);
-
-                }
-                return size;
-            } else {
-                long size = file.length();
-                return size;
-            }
-        } else {
-            System.out.println("no exist");
-            return 0;
-        }
     }
 
+    public static void doSomething(String[] nums) {
+
+        String urlMode = "https://exam.cmbccdn.cn/WW.xml";
+
+        for (int i = 0; i < nums.length; i++) {
+            String realUrl = urlMode.replace("WW", nums[i]);
+            String result = getResponse(realUrl);
+            if (result == null){
+                System.out.println("-1");
+            }else {
+                Document document = null;
+                try {
+                    document = DocumentHelper.parseText(result);
+                } catch (DocumentException e) {
+                    e.printStackTrace();
+                    System.out.println(-1);
+                    return;
+                }
+                Element employeeRoot = document.getRootElement();
+                Iterator child1 = employeeRoot.elementIterator();
+                while(child1.hasNext()){
+                    Element ele2 = (Element)child1.next();
+                    Iterator child2 = ele2.elementIterator();
+                    while (child2.hasNext()){
+                        Element ele3 = (Element)child2.next();
+                        String vecAutoProcess=ele3.getName();
+                        if ("vecAutoProcess".equals(vecAutoProcess)){
+                            Iterator child3 = ele3.elementIterator();
+                            while (child3.hasNext()) {
+                                Element ele4 = (Element)child3.next();
+                                Iterator child4 = ele4.elementIterator();
+                                boolean flag=true;
+                                while (child4.hasNext() && flag) {
+                                    Element ele5 = (Element)child4.next();
+                                    Iterator child5 = ele5.elementIterator();
+                                    if(child5.hasNext()) {
+                                        Element ele6 = (Element) child5.next();
+                                        String PerspectiveTransform = ele6.getName();
+                                        if ("PerspectiveTransform".equals(PerspectiveTransform)) {
+                                            List<Attribute> attrs = ele6.attributes();
+                                            for (Attribute item : attrs) {
+                                                if ("nWidth".equals(item.getName())) {
+                                                    String nWidth = item.getValue();
+                                                    flag=false;
+                                                    System.out.println(nWidth);
+
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    public static String getResponse(String realUrl) {
+
+        HttpClient httpClient = null;
+        HttpGet httpGet = null;
+        String result = null;
+        try{
+            httpClient = new SSLClient();
+            httpGet = new HttpGet(realUrl);
+//            HttpPost httpPost=new HttpPost(url);
+            HttpResponse response = httpClient.execute(httpGet);
+//            HttpResponse response = httpClient.execute(httpPost);
+            if(response != null){
+                HttpEntity resEntity = response.getEntity();
+                if(resEntity != null){
+                    result = EntityUtils.toString(resEntity);
+//                    System.out.println(result);
+                    return result;
+                }
+            }
+        }catch(Exception ex){
+            ex.printStackTrace();
+            System.out.println(ex.getMessage());
+        }
+        return null;
+    }
 }

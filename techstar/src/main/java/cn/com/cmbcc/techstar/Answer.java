@@ -50,9 +50,8 @@ public class Answer {
                 Answer2.doSomething(nums);
                 break;
             case 3:
-//                System.out.println("verify No." + num);
-//                System.out.println("题3输出结果：");
-//                Answer3.printf(args[1]);
+                System.out.println("verify No." + num);
+                
                 break;
             case 4:
                 System.out.println("verify No." + num);
@@ -64,7 +63,7 @@ public class Answer {
                 break;
             case 6:
                 System.out.println("verify No." + num);
-
+                Answer6.doSomething(args);
                 break;
             case 7:
                 System.out.println("verify No." + num);
